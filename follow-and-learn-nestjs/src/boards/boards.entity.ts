@@ -1,5 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { BoardStatus } from './boards.model';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BoardStatus } from './boards-status.enum';
 
 @Entity()
 export class Board extends BaseEntity {
@@ -14,4 +14,11 @@ export class Board extends BaseEntity {
 
   @Column()
   status: BoardStatus;
+
+  constructor(title: string, description: string, status: BoardStatus) {
+    super();
+    this.title = title;
+    this.description = description;
+    this.status = status;
+  }
 }
