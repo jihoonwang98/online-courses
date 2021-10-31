@@ -1,6 +1,6 @@
+const productModel = require('../models/product');
 
-const helloMiddleware = (req, res) => {
-    res.send('안녕하세요!');
+exports.createProduct = (req, res, next) => {
+    let created = productModel.create(req.body);
+    res.status(201).json(created);
 };
-
-module.exports = helloMiddleware;
