@@ -30,7 +30,7 @@
         xhr.addEventListener('load', function() {
           console.log(xhr.responseText);
           var result = JSON.parse(xhr.responseText);
-          document.querySelector('.result').innerHTML = result.email;
+          document.querySelector('.result').innerHTML = result.name;
         });
       }
     </script>
