@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export NODE_PATH='/Users/mojo/Documents/Practice/online-courses/follow-and-learn-TDD/env/lib/node_modules'
+export NPM_CONFIG_PREFIX='/Users/mojo/Documents/Practice/online-courses/follow-and-learn-TDD/env'
+export npm_config_prefix='/Users/mojo/Documents/Practice/online-courses/follow-and-learn-TDD/env'
+exec 'env/bin/node' "$@"
