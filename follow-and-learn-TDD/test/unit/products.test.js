@@ -2,6 +2,7 @@ const productController = require("../../src/controllers/products");
 const productModel = require("../../src/models/product");
 const httpMocks = require('node-mocks-http');
 const sampleProduct = require('../data/new-product.json');
+const {Promise} = require("mongoose");
 
 
 productModel.create = jest.fn();
@@ -13,7 +14,7 @@ let next;
 beforeEach(() => {
     req = httpMocks.createRequest();
     res = httpMocks.createResponse();
-    next = null;
+    next = jest.fn();
 })
 
 describe('Product Controller Create', () => {
@@ -31,18 +32,25 @@ describe('Product Controller Create', () => {
         expect(productModel.create).toBeCalledWith(sampleProduct);
     });
 
-    it('should return 201 response code', () => {
-        productController.createProduct(req, res, next);
+    it('should return 201 response code', async () => {
+        await productController.createProduct(req, res, next);
         expect(res.statusCode).toBe(201);
         expect(res._isEndCalled()).toBeTruthy();
     });
 
-    it('should return json body in response', () => {
+    it('should return json body in response', async () => {
         productModel.create.mockReturnValue(sampleProduct);
-        productController.createProduct(req, res, next);
+        await productController.createProduct(req, res, next);
         expect(res._getJSONData()).toStrictEqual(sampleProduct);
     });
 
-
-
+    it('should handle errors when description property missing', async () => {
+        const errorMessage = {
+            message: "description property missing"
+        };
+        const rejectedPromise = Promise.reject(errorMessage);
+        productModel.create.mockReturnValue(rejectedPromise);
+        await productController.createProduct(req, res, next);
+        expect(next).toBeCalledWith(errorMessage);
+    });
 });
